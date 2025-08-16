@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Play Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Tic Tac Toe</h1>
+            <p class="subtitle">Challenge your friends online!</p>
+        </header>
+
+        <div class="game-info">
+            <div class="player-info">
+                <div class="player player-x active">
+                    <span class="player-symbol">X</span>
+                    <span class="player-name">Player X</span>
+                    <span class="player-score">0</span>
+                </div>
+                <div class="player player-o">
+                    <span class="player-symbol">O</span>
+                    <span class="player-name">Player O</span>
+                    <span class="player-score">0</span>
+                </div>
+            </div>
+            <div class="current-turn">
+                <span id="turn-indicator">X's Turn</span>
+            </div>
+        </div>
+
+        <div class="game-board">
+            <div class="cell" data-cell="0"></div>
+            <div class="cell" data-cell="1"></div>
+            <div class="cell" data-cell="2"></div>
+            <div class="cell" data-cell="3"></div>
+            <div class="cell" data-cell="4"></div>
+            <div class="cell" data-cell="5"></div>
+            <div class="cell" data-cell="6"></div>
+            <div class="cell" data-cell="7"></div>
+            <div class="cell" data-cell="8"></div>
+        </div>
+
+        <div class="game-controls">
+            <button id="new-game-btn" class="btn btn-primary">New Game</button>
+            <button id="reset-scores-btn" class="btn btn-secondary">Reset Scores</button>
+        </div>
+
+        <div id="game-status" class="game-status hidden">
+            <div class="status-content">
+                <h2 id="status-message"></h2>
+                <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tic Tac Toe Game. Built with ❤️ for online gaming.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
