@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>Tic Tac Toe - Play Online</title>
+    <title>Gaming Hub - Choose Your Game</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -15,58 +15,59 @@
 <body>
     <div class="container">
         <header>
-            <h1>Tic Tac Toe</h1>
-            <p class="subtitle">Challenge your friends online!</p>
+            <h1>🎮 Gaming Hub</h1>
+            <p class="subtitle">Choose your game and start playing!</p>
         </header>
 
-        <div class="game-info">
-            <div class="player-info">
-                <div class="player player-x active">
-                    <span class="player-symbol">X</span>
-                    <span class="player-name">Player X</span>
-                    <span class="player-score">0</span>
-                </div>
-                <div class="player player-o">
-                    <span class="player-symbol">O</span>
-                    <span class="player-name">Player O</span>
-                    <span class="player-score">0</span>
+        <div class="game-selection">
+            <div class="game-card" onclick="window.location.href='tic-tac-toe.html'">
+                <div class="game-icon">⭕❌</div>
+                <h2>Tic Tac Toe</h2>
+                <p>Classic 3x3 grid strategy game for two players</p>
+                <div class="game-features">
+                    <span>🎯 Strategy</span>
+                    <span>👥 2 Players</span>
+                    <span>📱 Mobile Ready</span>
                 </div>
             </div>
-            <div class="current-turn">
-                <span id="turn-indicator">X's Turn</span>
+
+            <div class="game-card" onclick="window.location.href='tetris.html'">
+                <div class="game-icon">🟦🟨🟪</div>
+                <h2>Tetris</h2>
+                <p>Classic falling blocks puzzle game</p>
+                <div class="game-features">
+                    <span>🧩 Puzzle</span>
+                    <span>🎵 Music</span>
+                    <span>🏆 High Scores</span>
+                </div>
             </div>
         </div>
 
-        <div class="game-board">
-            <div class="cell" data-cell="0"></div>
-            <div class="cell" data-cell="1"></div>
-            <div class="cell" data-cell="2"></div>
-            <div class="cell" data-cell="3"></div>
-            <div class="cell" data-cell="4"></div>
-            <div class="cell" data-cell="5"></div>
-            <div class="cell" data-cell="6"></div>
-            <div class="cell" data-cell="7"></div>
-            <div class="cell" data-cell="8"></div>
-        </div>
-
-        <div class="game-controls">
-            <button id="new-game-btn" class="btn btn-primary">New Game</button>
-            <button id="reset-scores-btn" class="btn btn-secondary">Reset Scores</button>
-        </div>
-
-        <div id="game-status" class="game-status hidden">
-            <div class="status-content">
-                <h2 id="status-message"></h2>
-                <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+        <div class="coming-soon">
+            <h3>🎯 Coming Soon...</h3>
+            <div class="upcoming-games">
+                <div class="upcoming-game">
+                    <span class="game-icon-small">🐍</span>
+                    <span>Snake Game</span>
+                </div>
+                <div class="upcoming-game">
+                    <span class="game-icon-small">🎲</span>
+                    <span>Memory Cards</span>
+                </div>
+                <div class="upcoming-game">
+                    <span class="game-icon-small">🚀</span>
+                    <span>Space Shooter</span>
+                </div>
             </div>
         </div>
+
+        <footer>
+            <p>&copy; 2025 Gaming Hub. Built with ❤️ for online gaming.</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Tic Tac Toe Game. Built with 阿兔10號 for online gaming.</p>
-    </footer>
-
-    <script src="script.js"></script>
+    <script src="sound-manager.js"></script>
+    <script src="home.js"></script>
 </body>
 
 </html>

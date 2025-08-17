@@ -7,6 +7,11 @@ class TicTacToe {
 
         this.initializeGame();
         this.bindEvents();
+
+        // Start background music
+        if (window.soundManager) {
+            window.soundManager.playMusic('ticTacToe');
+        }
     }
 
     initializeGame() {
@@ -47,11 +52,19 @@ class TicTacToe {
             if (btn) {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    // Play button sound
+                    if (window.soundManager) {
+                        window.soundManager.playTicTacToeSounds('button');
+                    }
                     this.handleButtonClick(btnId);
                 });
 
                 btn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
+                    // Play button sound
+                    if (window.soundManager) {
+                        window.soundManager.playTicTacToeSounds('button');
+                    }
                     this.handleButtonClick(btnId);
                 }, { passive: false });
             }
@@ -76,6 +89,11 @@ class TicTacToe {
     handleCellClick(cellIndex) {
         if (this.board[cellIndex] !== '' || !this.gameActive) {
             return;
+        }
+
+        // Play piece placement sound
+        if (window.soundManager) {
+            window.soundManager.playTicTacToeSounds('place');
         }
 
         this.board[cellIndex] = this.currentPlayer;
@@ -137,8 +155,16 @@ class TicTacToe {
 
         if (result === 'win') {
             this.scores[this.currentPlayer]++;
+            // Play win sound
+            if (window.soundManager) {
+                window.soundManager.playTicTacToeSounds('win');
+            }
             this.showGameStatus(`${this.currentPlayer} Wins! 🎉`);
         } else if (result === 'draw') {
+            // Play draw sound
+            if (window.soundManager) {
+                window.soundManager.playTicTacToeSounds('draw');
+            }
             this.showGameStatus("It's a Draw! 🤝");
         }
 
