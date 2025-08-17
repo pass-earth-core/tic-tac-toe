@@ -11,6 +11,13 @@ body {
     display: flex;
     flex-direction: column;
     color: #333;
+    /* Prevent text selection on mobile */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* Prevent zoom on double-tap */
+    touch-action: manipulation;
 }
 
 .container {
@@ -137,11 +144,25 @@ header h1 {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Mobile touch improvements */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    /* Prevent text selection */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .cell:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile touch feedback */
+.cell:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .cell.x {
@@ -199,11 +220,25 @@ header h1 {
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Poppins', sans-serif;
+    /* Mobile touch improvements */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    /* Prevent text selection */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile touch feedback */
+.btn:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
 }
 
 .btn-primary {
@@ -321,5 +356,31 @@ footer {
 
     .player {
         margin: 0;
+    }
+}
+
+/* Mobile-specific improvements */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Disable hover effects on touch devices */
+    .cell:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Increase touch targets for mobile */
+    .cell {
+        min-height: 60px;
+        min-width: 60px;
+    }
+
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
     }
 }

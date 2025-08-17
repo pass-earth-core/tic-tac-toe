@@ -18,27 +18,59 @@ class TicTacToe {
     }
 
     bindEvents() {
-        // Bind cell click events
+        // Bind both click and touch events for better mobile support
         document.querySelectorAll('.cell').forEach(cell => {
+            // Click event for desktop
             cell.addEventListener('click', (e) => {
+                e.preventDefault();
                 const cellIndex = parseInt(e.target.dataset.cell);
                 this.handleCellClick(cellIndex);
             });
+
+            // Touch events for mobile
+            cell.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const cellIndex = parseInt(e.target.dataset.cell);
+                this.handleCellClick(cellIndex);
+            }, { passive: false });
+
+            // Additional touch event handling
+            cell.addEventListener('touchend', (e) => {
+                e.preventDefault();
+            }, { passive: false });
         });
 
-        // Bind button events
-        document.getElementById('new-game-btn').addEventListener('click', () => {
-            this.newGame();
-        });
+        // Bind button events with touch support
+        const buttons = ['new-game-btn', 'reset-scores-btn', 'play-again-btn'];
+        buttons.forEach(btnId => {
+            const btn = document.getElementById(btnId);
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.handleButtonClick(btnId);
+                });
 
-        document.getElementById('reset-scores-btn').addEventListener('click', () => {
-            this.resetScores();
+                btn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.handleButtonClick(btnId);
+                }, { passive: false });
+            }
         });
+    }
 
-        document.getElementById('play-again-btn').addEventListener('click', () => {
-            this.hideGameStatus();
-            this.newGame();
-        });
+    handleButtonClick(btnId) {
+        switch (btnId) {
+            case 'new-game-btn':
+                this.newGame();
+                break;
+            case 'reset-scores-btn':
+                this.resetScores();
+                break;
+            case 'play-again-btn':
+                this.hideGameStatus();
+                this.newGame();
+                break;
+        }
     }
 
     handleCellClick(cellIndex) {
@@ -169,11 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
     new TicTacToe();
 });
 
-// Add some fun sound effects (optional)
-function playSound(type) {
-    // You can add actual sound files here
-    console.log(`Playing ${type} sound`);
-}
+// Prevent zoom on double-tap for mobile
+document.addEventListener('touchend', (e) => {
+    if (e.target.classList.contains('cell') || e.target.tagName === 'BUTTON') {
+        e.preventDefault();
+    }
+}, { passive: false });
 
 // Add keyboard support for accessibility
 document.addEventListener('keydown', (e) => {
@@ -187,10 +220,10 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Add touch support for mobile devices
-document.addEventListener('touchstart', (e) => {
-    // Prevent double-tap zoom on mobile
-    if (e.target.classList.contains('cell')) {
-        e.preventDefault();
-    }
-}, { passive: false });
+// Force viewport meta tag for mobile
+if (!document.querySelector('meta[name="viewport"]')) {
+    const meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    document.head.appendChild(meta);
+}
