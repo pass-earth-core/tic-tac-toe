@@ -54,6 +54,13 @@ class Tetris {
         if (window.soundManager) {
             window.soundManager.playMusic('tetris');
         }
+
+        // Initialize audio context on first user interaction
+        document.addEventListener('click', () => {
+            if (window.soundManager && window.soundManager.audioContext) {
+                window.soundManager.resumeAudioContext();
+            }
+        }, { once: true });
     }
 
     init() {
@@ -61,6 +68,30 @@ class Tetris {
         this.generateNewPiece();
         this.draw();
         this.updateDisplay();
+        this.checkMobileControls();
+    }
+
+    checkMobileControls() {
+        // Show/hide mobile controls based on screen size
+        const mobileControls = document.getElementById('mobile-controls');
+        if (mobileControls) {
+            if (window.innerWidth <= 768) {
+                mobileControls.style.display = 'block';
+            } else {
+                mobileControls.style.display = 'none';
+            }
+        }
+
+        // Listen for window resize
+        window.addEventListener('resize', () => {
+            if (mobileControls) {
+                if (window.innerWidth <= 768) {
+                    mobileControls.style.display = 'block';
+                } else {
+                    mobileControls.style.display = 'none';
+                }
+            }
+        });
     }
 
     bindEvents() {
@@ -90,6 +121,81 @@ class Tetris {
             this.resetGame();
         });
 
+        // Mobile control buttons
+        document.getElementById('rotate-btn').addEventListener('click', () => {
+            if (window.soundManager) {
+                window.soundManager.playTetrisSounds('button');
+            }
+            if (this.gameRunning && !this.gamePaused) {
+                this.rotatePiece();
+            }
+        });
+
+        document.getElementById('left-btn').addEventListener('click', () => {
+            if (window.soundManager) {
+                window.soundManager.playTetrisSounds('button');
+            }
+            if (this.gameRunning && !this.gamePaused) {
+                this.movePiece(-1, 0);
+            }
+        });
+
+        document.getElementById('right-btn').addEventListener('click', () => {
+            if (window.soundManager) {
+                window.soundManager.playTetrisSounds('button');
+            }
+            if (this.gameRunning && !this.gamePaused) {
+                this.movePiece(1, 0);
+            }
+        });
+
+        document.getElementById('down-btn').addEventListener('click', () => {
+            if (window.soundManager) {
+                window.soundManager.playTetrisSounds('button');
+            }
+            if (this.gameRunning && !this.gamePaused) {
+                this.movePiece(0, 1);
+            }
+        });
+
+        document.getElementById('drop-btn').addEventListener('click', () => {
+            if (window.soundManager) {
+                window.soundManager.playTetrisSounds('button');
+            }
+            if (this.gameRunning && !this.gamePaused) {
+                this.hardDrop();
+            }
+        });
+
+        // Add touch events for mobile buttons
+        const mobileButtons = ['rotate-btn', 'left-btn', 'right-btn', 'down-btn', 'drop-btn'];
+        mobileButtons.forEach(btnId => {
+            const btn = document.getElementById(btnId);
+            if (btn) {
+                btn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    btn.style.transform = 'scale(0.95)';
+                    btn.classList.add('pressed');
+
+                    // Add continuous movement for movement buttons
+                    if (btnId === 'left-btn' || btnId === 'right-btn' || btnId === 'down-btn') {
+                        this.startContinuousMovement(btnId);
+                    }
+                }, { passive: false });
+
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    btn.style.transform = 'scale(1)';
+                    btn.classList.remove('pressed');
+
+                    // Stop continuous movement
+                    if (btnId === 'left-btn' || btnId === 'right-btn' || btnId === 'down-btn') {
+                        this.stopContinuousMovement();
+                    }
+                }, { passive: false });
+            }
+        });
+
         // Keyboard events
         document.addEventListener('keydown', (e) => this.handleKeyPress(e));
 
@@ -97,6 +203,33 @@ class Tetris {
         this.canvas.addEventListener('touchstart', (e) => this.handleTouch(e), { passive: false });
         this.canvas.addEventListener('touchmove', (e) => this.handleTouch(e), { passive: false });
         this.canvas.addEventListener('touchend', (e) => this.handleTouch(e), { passive: false });
+    }
+
+    startContinuousMovement(buttonType) {
+        this.stopContinuousMovement(); // Clear any existing interval
+
+        this.continuousMovementInterval = setInterval(() => {
+            if (this.gameRunning && !this.gamePaused) {
+                switch (buttonType) {
+                    case 'left-btn':
+                        this.movePiece(-1, 0);
+                        break;
+                    case 'right-btn':
+                        this.movePiece(1, 0);
+                        break;
+                    case 'down-btn':
+                        this.movePiece(0, 1);
+                        break;
+                }
+            }
+        }, 150); // Move every 150ms for smooth continuous movement
+    }
+
+    stopContinuousMovement() {
+        if (this.continuousMovementInterval) {
+            clearInterval(this.continuousMovementInterval);
+            this.continuousMovementInterval = null;
+        }
     }
 
     handleKeyPress(e) {
@@ -177,6 +310,11 @@ class Tetris {
 
         this.gamePaused = !this.gamePaused;
         document.getElementById('pause-btn').textContent = this.gamePaused ? 'Resume' : 'Pause';
+
+        // Stop continuous movement when paused
+        if (this.gamePaused) {
+            this.stopContinuousMovement();
+        }
     }
 
     resetGame() {
@@ -192,6 +330,9 @@ class Tetris {
         document.getElementById('start-btn').disabled = false;
         document.getElementById('pause-btn').disabled = true;
         document.getElementById('pause-btn').textContent = 'Pause';
+
+        // Stop continuous movement
+        this.stopContinuousMovement();
 
         this.generateNewPiece();
         this.draw();
@@ -485,6 +626,9 @@ class Tetris {
         this.gameRunning = false;
         document.getElementById('start-btn').disabled = false;
         document.getElementById('pause-btn').disabled = true;
+
+        // Stop continuous movement
+        this.stopContinuousMovement();
 
         // Play game over sound
         if (window.soundManager) {

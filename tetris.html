@@ -79,12 +79,27 @@
             </div>
         </div>
 
-        <div id="game-over" class="game-over hidden">
+        <div class="game-over hidden" id="game-over">
             <div class="game-over-content">
                 <h2>Game Over!</h2>
                 <p>Final Score: <span id="final-score">0</span></p>
                 <p>Lines Cleared: <span id="final-lines">0</span></p>
-                <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+                <button id="play-again-btn">Play Again</button>
+            </div>
+        </div>
+
+        <!-- Mobile Controls -->
+        <div class="mobile-controls" id="mobile-controls">
+            <div class="control-row">
+                <button class="control-btn rotate-btn" id="rotate-btn" title="Rotate">🔄</button>
+            </div>
+            <div class="control-row">
+                <button class="control-btn left-btn" id="left-btn" title="Move Left">⬅️</button>
+                <button class="control-btn down-btn" id="down-btn" title="Move Down">⬇️</button>
+                <button class="control-btn right-btn" id="right-btn" title="Move Right">➡️</button>
+            </div>
+            <div class="control-row">
+                <button class="control-btn drop-btn" id="drop-btn" title="Hard Drop">⬇️⬇️</button>
             </div>
         </div>
     </div>

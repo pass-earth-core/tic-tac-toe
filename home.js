@@ -1,5 +1,12 @@
 // Home page functionality
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize audio context on first user interaction
+    document.addEventListener('click', () => {
+        if (window.soundManager && window.soundManager.audioContext) {
+            window.soundManager.resumeAudioContext();
+        }
+    }, { once: true });
+
     // Add smooth animations to game cards
     const gameCards = document.querySelectorAll('.game-card');
 
@@ -20,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('touchend', () => {
             card.style.transform = 'translateY(0) scale(1)';
         });
+
+        // Add click sound for game card navigation
+        card.addEventListener('click', () => {
+            if (window.soundManager) {
+                window.soundManager.playSound('button');
+            }
+        });
     });
 
     // Add loading animation
@@ -31,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const upcomingGames = document.querySelectorAll('.upcoming-game');
     upcomingGames.forEach(game => {
         game.addEventListener('click', () => {
+            // Play button sound
+            if (window.soundManager) {
+                window.soundManager.playSound('button');
+            }
             // Show coming soon message
             showComingSoonMessage();
         });

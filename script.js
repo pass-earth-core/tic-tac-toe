@@ -12,6 +12,13 @@ class TicTacToe {
         if (window.soundManager) {
             window.soundManager.playMusic('ticTacToe');
         }
+
+        // Initialize audio context on first user interaction
+        document.addEventListener('click', () => {
+            if (window.soundManager && window.soundManager.audioContext) {
+                window.soundManager.resumeAudioContext();
+            }
+        }, { once: true });
     }
 
     initializeGame() {

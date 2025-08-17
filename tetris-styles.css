@@ -505,3 +505,160 @@ footer {
         min-width: 44px;
     }
 }
+
+/* Game Over Screen */
+.game-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.overlay-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.overlay-content h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+.overlay-content p {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.overlay-content button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.overlay-content button:hover {
+    transform: scale(1.05);
+}
+
+/* Mobile Controls */
+.mobile-controls {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.control-btn.pressed {
+    transform: scale(0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn.rotate-btn {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.control-btn.drop-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Add ripple effect for mobile buttons */
+.control-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.control-btn:active::after {
+    width: 100px;
+    height: 100px;
+}
+
+/* Show mobile controls on mobile devices */
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: block;
+    }
+
+    /* Adjust game container to make room for controls */
+    .game-container {
+        margin-bottom: 120px;
+    }
+
+    /* Make controls more touch-friendly on very small screens */
+    @media (max-width: 480px) {
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            font-size: 18px;
+        }
+
+        .mobile-controls {
+            bottom: 15px;
+            padding: 12px;
+        }
+    }
+}
